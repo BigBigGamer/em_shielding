@@ -1,239 +1,12 @@
-\documentclass[a4paper,12pt]{article}
-
-\usepackage{cmap}
-\usepackage[T2A]{fontenc}
-\usepackage[utf8x]{inputenc}
-\usepackage[english, russian]{babel}
-
-\usepackage{misccorr} % в заголовках появляется точка, но при ссылке на них ее нет
-\usepackage{amssymb,amsfonts,amsmath,amsthm}  
-\usepackage{indentfirst}
-\usepackage[usenames,dvipsnames]{color} 
-\usepackage[unicode,hidelinks]{hyperref}
-% \hypersetup{%
-%     pdfborder = {0 0 0}
-% }
-\usepackage{makecell,multirow} 
-\usepackage{ulem}
-\usepackage{graphicx,wrapfig}
-\renewcommand\epsilon{\varepsilon}
-% \renewcommand\epsilon{\varepsilon}
-\graphicspath{{img/}}
-\usepackage{geometry}
-\geometry{left=2cm,right=2cm,top=3cm,bottom=3cm,bindingoffset=0cm,headheight=15pt}
-\usepackage{fancyhdr} 
-\linespread{1.2} 
-\frenchspacing 
-\renewcommand{\labelenumii}{\theenumii)} 
-% \usepackage{caption}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\def\labauthor{Сарафанов Ф.Г., Платонова М.В.}
-\def\labauthors{\labauthor}
-\def\labnumber{4}
-\def\labtheme{Электромагнитное \\[0.4em] экранирование}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%применим колонтитул к стилю страницы
-\pagestyle{fancy} 
-	%очистим "шапку" страницы
-\fancyhead{} 
-	%слева сверху на четных и справа на нечетных
-\fancyhead[L]{\labauthors} 
-	%справа сверху на четных и слева на нечетных
-\fancyhead[R]{Отчёт по лабораторной работе №\labnumber} 
-	%очистим "подвал" страницы
-\fancyfoot{} 
-	% номер страницы в нижнем колинтуле в центре
-\fancyfoot[C]{\thepage} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{float}
-\usepackage[mode=buildnew]{standalone}
-\usepackage{tikz} 
-% \usepackage{subcaption}
-\usepackage{tikz,csvsimple,physics}
-\usetikzlibrary{scopes}
-\usetikzlibrary{%
-     decorations.pathreplacing,%
-     decorations.pathmorphing,%
-    patterns,%
-    calc,%
-    scopes,%
-    arrows,%
-    % arrows.spaced,%
-}
-\makeatletter
-\newif\if@gather@prefix 
-\preto\place@tag@gather{% 
-  \if@gather@prefix\iftagsleft@ 
-    \kern-\gdisplaywidth@ 
-    \rlap{\gather@prefix}% 
-    \kern\gdisplaywidth@ 
-  \fi\fi 
-} 
-\appto\place@tag@gather{% 
-  \if@gather@prefix\iftagsleft@\else 
-    \kern-\displaywidth 
-    \rlap{\gather@prefix}% 
-    \kern\displaywidth 
-  \fi\fi 
-  \global\@gather@prefixfalse 
-} 
-\preto\place@tag{% 
-  \if@gather@prefix\iftagsleft@ 
-    \kern-\gdisplaywidth@ 
-    \rlap{\gather@prefix}% 
-    \kern\displaywidth@ 
-  \fi\fi 
-} 
-\appto\place@tag{% 
-  \if@gather@prefix\iftagsleft@\else 
-    \kern-\displaywidth 
-    \rlap{\gather@prefix}% 
-    \kern\displaywidth 
-  \fi\fi 
-  \global\@gather@prefixfalse 
-} 
-\newcommand*{\beforetext}[1]{% 
-  \ifmeasuring@\else
-  \gdef\gather@prefix{#1}% 
-  \global\@gather@prefixtrue 
-  \fi
-} 
-\makeatother
-
-\usepackage{booktabs}
-\usepackage{pgfplots, pgfplotstable}
-
-\usepackage[outline]{contour}
-\usepackage{tocloft}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}} % for parts
-% \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}} % for chapters
-\usepackage{pgfplots,pgfplotstable,booktabs,colortbl}
-
-% \renewcommand{\arraystretch}{1.5} 
-
-\pgfkeys{/pgf/number format/.cd,
-		fixed,  1000 sep={\,}}
-
-\pgfplotstableset{
-	% multicolumn names, % allows to have multicolumn names
-	% header=has colnames,
-	% dec sep align,
-	col sep=tab, % the seperator in our .csv file
-	% fixed zerofill, 
-	% precision=4,
-	columns/1/.style={
-		column name={1},
-		string type,
-	},	
-	columns/2/.style={
-		column name={2},
-		string type,
-	},	
-	columns/3/.style={
-		column name={3},
-		string type,
-	},	
-	columns/Skm/.style={
-		column name={$S_{km}$},
-		string type,
-	},	
-	columns/N/.style={
-		column name={№},
-		precision=0,
-		% fixed zerofill, 	
-		% % column type/.add={|}{},
-	},
-	columns/Imax/.style={
-		column name={$I_{\max}$},
-		dec sep align,
-		precision=0,
-	},
-	columns/Imin/.style={
-		column name={$I_{\min}$},
-		dec sep align,
-		precision=1,
-	},
-	columns/zmin/.style={
-		column name={$z_{\min}$, см},
-		dec sep align,
-		precision=2,
-	},
-	empty cells with={\textbf{--}},
-	every head row/.style={
-	before row={\toprule},
-	after row={
-		\midrule}
-		},
-	every last row/.style={after row=\bottomrule},
-	every row/.style={after row=\midrule}, 
-	columns={N,Skm,1,2,3,Imax,Imin,zmin},		
-	% dec zerofill
-	% fixed,fixed zerofill,
-	% precision=3
-	% every even column/.style={%
-	% 	% column type/.add={>{\columncolor[gray]{.8}}}{}
-	% },
-	% every even row/.style={%
-	% 	before row={\rowcolor[gray]{0.95}},
-	% },	
-	% every head row/.style={
- %        before row={
- %        	& & \multicolumn{3}{c}{Номер входа} & \\ \toprule
- %        },
- %        after row=\midrule
-	% },
-	}%
-
-\pgfplotsset{compat=newest}
-\usepackage{mathtools}
-\mathtoolsset{showonlyrefs=true}
-
+\input{text/preamble}
 \begin{document}
 
-\begin{titlepage}
+\def\labauthors{Карусевич А.А., Шиков А.П.}
+\def\labgroup{440}
+\def\labnumber{2}
+\def\labtheme{Электромагнитное экранирование}
+\input{text/titlepage}
 
-\begin{center}
-
-{\textsc{Нижегородский государственный университет имени Н.\,И. Лобачевского}}
-\vskip 2pt \hrule \vskip 3pt
-{\textsc{Радиофизический факультет}}
-
-\vfill
-
-
-{{\LARGE Отчет по лабораторной работе №\labnumber}\vskip 12pt {\Huge \bfseries \labtheme}}
-
-	
-\vspace{2cm}
-{\large Работу выполнили студенты \\[-0.25em] 430 группы радиофизического факультата \\[0.5em] {\Large \bfseries \labauthor}}
-
-% \vspace{0.5cm}
-% {e-mail: sfg180@yandex.ru}
-
-% \vspace{2cm}
-
-\end{center}
-
-\vfill
-	
-% \begin{flushright}
-% 	{Выполнили студенты 430 группы\\ \labauthor}%\vskip 12pt Принял:\\ Менсов С.\,Н.}
-% \end{flushright}
-	
-% \vfill
-	
-\begin{center}
-	{Нижний Новгород, \today}
-\end{center}
-
-\end{titlepage}
-
-\tableofcontents
 \newpage
 
 \section*{Введение}
@@ -435,7 +208,7 @@
 \begin{figure}[H]
 	% \vspace{-15pt}
 	\centering
-	\includegraphics[scale=1]{plots/eta}
+	\includegraphics[scale=1]{imgs/graphs/eta}
 	\caption{Результаты эксперимента для трех латунных и трех стальных экранов}
 	\label{fig:all}
 \end{figure}
@@ -445,7 +218,7 @@
 \begin{figure}[H]
 	% \vspace{-10pt}
 	\centering
-	\includegraphics[scale=1]{plots/delta}
+	\includegraphics[scale=1]{imgs/graphs/delta}
 	\caption{Разграничение применимости формул толщиной скин-слоя $\delta(f)$}
 	\label{fig:figure3}
 
@@ -453,7 +226,7 @@
 \begin{figure}[H]
 	% \vspace{-10pt}
 	\centering
-	\includegraphics[scale=1]{plots/eta_wt}
+	\includegraphics[scale=1]{imgs/graphs/eta_wt}
 	\caption{Наложение теоретических графиков (пунктиром) на экспериментальные для латунных экранов}
 	\label{fig:figure3}
 	% \vspace{-10pt}
@@ -527,7 +300,7 @@
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1]{plots/eta_wt_steel}
+	\includegraphics[scale=1]{imgs/graphs/eta_wt_steel}
 	\caption{Сопоставление теоретических графиков и практических для стальных экранов}
 	\label{fig:eta_wt_steel}
 \end{figure}
